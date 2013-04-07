@@ -17,7 +17,7 @@ def is_collection(obj):
     col = getattr(obj, '__getitem__', False)
     val = False if (not col) else True
 
-    if isinstance(obj, basestring):
+    if isinstance(obj, str):
         val = False
 
     return val
@@ -54,7 +54,7 @@ def to_python(obj,
             in_date = in_dict.get(in_key)
             try:
                 out_date = parse_datetime(in_date)
-            except TypeError, e:
+            except TypeError as e:
                 raise e
                 out_date = None
 
@@ -76,7 +76,7 @@ def to_python(obj,
                 d[in_key] = dict(in_dict.get(in_key))
 
     if object_map:
-        for (k, v) in object_map.items():
+        for (k, v) in list(object_map.items()):
             if in_dict.get(k):
                 d[k] = v.new_from_dict(in_dict.get(k))
 
@@ -107,7 +107,7 @@ def to_api(in_dict, int_keys=None, date_keys=None, bool_keys=None):
 
                 _from = in_dict[in_key]
 
-                if isinstance(_from, basestring):
+                if isinstance(_from, str):
                     dtime = parse_datetime(_from)
 
                 elif isinstance(_from, datetime):
@@ -119,7 +119,7 @@ def to_api(in_dict, int_keys=None, date_keys=None, bool_keys=None):
                 del in_dict[in_key]
 
     # Remove all Nones
-    for k, v in in_dict.items():
+    for k, v in list(in_dict.items()):
         if v is None:
             del in_dict[k]
 

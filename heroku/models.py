@@ -9,7 +9,7 @@ This module contains the models that comprise the Heroku API.
 
 from .helpers import to_python
 from .structures import *
-from urllib import quote
+from urllib.parse import quote
 import json
 import requests
 
@@ -40,7 +40,7 @@ class BaseResource(object):
             setattr(self, attr, None)
 
     def _keys(self):
-        return self._strs + self._ints + self._dates + self._bools + self._map.keys()
+        return self._strs + self._ints + self._dates + self._bools + list(self._map.keys())
 
     @property
     def _id(self):
@@ -65,7 +65,7 @@ class BaseResource(object):
 
     def dict(self):
         d = dict()
-        for k in self.keys():
+        for k in list(self.keys()):
             d[k] = self.__dict__.get(k)
 
         return d

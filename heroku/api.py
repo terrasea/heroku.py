@@ -71,7 +71,7 @@ class HerokuCore(object):
         return self._api_key_verified
 
     def _url_for(self, *args):
-        args = map(str, args)
+        args = list(map(str, args))
         return '/'.join([self._heroku_url] + list(args))
 
     @staticmethod
@@ -123,7 +123,7 @@ class HerokuCore(object):
         if map is None:
             map = KeyedListResource
 
-        list_resource = map(items=items)
+        list_resource = list(map(items=items))
         list_resource._h = self
         list_resource._obj = obj
         list_resource._kwargs = kwargs
